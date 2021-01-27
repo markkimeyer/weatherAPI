@@ -1,10 +1,9 @@
-h3 {
-    text-align: center;
-    color: white;
-}
+
 header {
     background-color:#2d4249;
     height: 40px;
+    text-align: center;
+    color: white;
 
 
 }
@@ -19,4 +18,8 @@ button {
 }
 .city {
     font-size: 32px;
+}
+
+.history {
+    background-color: lightblue;
 }
