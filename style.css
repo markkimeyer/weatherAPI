@@ -8,7 +8,7 @@ header {
 
 }
 .currentStats {
-    background-color: gray;
+    background-color:lightgray;
 }
 button {
     border: solid 1px gray;
@@ -22,4 +22,8 @@ button {
 
 .history {
     background-color: lightblue;
+}
+#current {
+    width:500px;
+    height: 500px;
 }

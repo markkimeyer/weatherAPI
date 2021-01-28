@@ -1,6 +1,8 @@
+$(document).ready(function){
 var apiKey = "3d5a050005dc5cb9ca5349455c5dc325";
 
-var citySearch = $(".searchInput");
+var citySearch = $(".searchInput").val();
+console.log(citySearch);
 //current forecast
 var dailyQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + "Hudson" + "&appid=" + apiKey;
 
@@ -77,6 +79,9 @@ $.ajax({
        var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
        $("#iconOne").attr('src', iconurl);
 
+       var dateOne = moment().add(1, 'days').calendar();
+       $("#date1").append(dateOne);
+
 
   })
 
@@ -85,3 +90,4 @@ $.ajax({
 })
 
 })
+}
