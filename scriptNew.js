@@ -63,21 +63,38 @@ $(document).ready(function () {
     //5 day forecast loop with Ajax call to get UV by lat and lon
     function fiveDay(lat, lon) {
         var futureQueryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
-        for (var i = 0; i < 6; i++) {
+
         $.ajax({
             url: futureQueryURL,
             method: "GET"
-        }).then(function (response5day) {
-            
+        }).then(function (responseForecast) {   
+            console.log(responseForecast);
+            for (var i = 1; i < 6; i++) {
 
+                var newCard = $("<div>").addClass("card text-white bg-primary");
+                $("#forecast").append(newCard);
+                var bodyDiv = $("<div>").addClass("card-body");
+                newCard.append(bodyDiv);
+                
+                var humidityLoop = $("<p>").addClass("card-text").text("Humidity: " + responseForecast.daily[i].humidity + "%");
+
+                var tempC = (responseForecast.daily[i].temp.day);
+                var tempF = (tempC - 273.15) * 1.80 + 32;
+                var tempLoop = $("<p>").addClass("card-text").text("Temperature: " + tempF + "°F");
+
+                var iconLoopCode = (responseForecast.daily[i].weather[0].icon);
+                var iconLoopurl = "http://openweathermap.org/img/w/" + iconLoopCode + ".png";
+                var iconLoop = $("<img>").attr("src", iconLoopurl);
+
+                bodyDiv.append(tempLoop,iconLoop, humidityLoop);
+                
+            }
         })
     }
 
 
 
 
-
-  
 
 
 
