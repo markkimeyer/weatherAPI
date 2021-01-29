@@ -41,7 +41,7 @@ $(document).ready(function () {
             var card = $("<div>").addClass("card");
             var cardBody = $("<div>").addClass("card-body");
             var iconCode = (response.weather[0].icon);
-            var iconurl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+            var iconurl = "https://openweathermap.org/img/w/" + iconCode + ".png";
             var icon = $("<img>").attr("src", iconurl);
 
             //add to page
@@ -106,7 +106,7 @@ $(document).ready(function () {
                 var tempLoop = $("<p>").addClass("card-text").text("Temperature: " + tempF.toFixed(0) + "°F");
 
                 var iconLoopCode = (responseForecast.daily[i].weather[0].icon);
-                var iconLoopurl = "http://openweathermap.org/img/w/" + iconLoopCode + ".png";
+                var iconLoopurl = "https://openweathermap.org/img/w/" + iconLoopCode + ".png";
                 var iconLoop = $("<img>").attr("src", iconLoopurl);
 
                 var epoch = moment.unix(responseForecast.daily[i].dt);
