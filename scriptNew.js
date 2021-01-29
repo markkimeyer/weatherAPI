@@ -1,10 +1,23 @@
 $(document).ready(function () {
     var apiKey = "3d5a050005dc5cb9ca5349455c5dc325";
 
+
+    function getHistory() {
+        var location = localStorage.getItem("searchedCity");
+     $("#search1").text(location);
+
+    
+        
+    }
+   getHistory();
+
     $("button").on("click", function (event) {
         var citySearch = $(".searchInput").val();
-        console.log(citySearch);
         daily(citySearch);
+ localStorage.setItem("searchedCity", citySearch);
+ console.log(citySearch);
+ getHistory();
+            
 
     })
 
@@ -15,17 +28,14 @@ $(document).ready(function () {
             url: dailyQueryURL,
             method: "GET"
         }).then(function (response) {
-            console.log(response);
             var lat = (response.coord.lat);
-            console.log(lat);
             var lon = (response.coord.lon);
-            console.log(lon);
 
             //create HTML for current weather
             var tempC = (response.main.temp);
             var tempF = (tempC - 273.15) * 1.80 + 32;
-            var temp = $("<p>").addClass("card-text").text("Temperature: " + tempF + "°F");
-            var city = $("<h2>").addClass("card-title").text(response.name);
+            var temp = $("<p>").addClass("card-text").text("Temperature: " + tempF.toFixed(0) + "°F");
+            var city = $("<h2>").addClass("card-title").text("Today's Weather in " + response.name);
             var wind = $("<p>").addClass("card-text").text("Wind Speed: " + response.wind.speed + " MPH");
             var humidity = $("<p>").addClass("card-text").text("Humidity: " + response.main.humidity + "%");
             var card = $("<div>").addClass("card");
@@ -54,8 +64,21 @@ $(document).ready(function () {
             method: "GET"
         }).then(function (response) {
             console.log(response);
-            var uvi = $("<p>").addClass("card-body").text("UV Index: " + response.current.uvi);
-            $("#current").append(uvi);
+            var uvi = $("<p>").text("UV Index: ");
+            var badge = $("<span>").addClass("badge").text(response.current.uvi);
+            //change color for UV
+            if (response.current.uvi < 3) {
+                badge.addClass("bg-success");
+            }
+            else if (response.current.uvi < 7) {
+                badge.addClass("bg-warning");
+            }
+            else {
+                badge.addClass("bg-danger");
+            }
+
+
+            $(".card-body").append(uvi.append(badge));
 
         })
     }
@@ -67,7 +90,7 @@ $(document).ready(function () {
         $.ajax({
             url: futureQueryURL,
             method: "GET"
-        }).then(function (responseForecast) {   
+        }).then(function (responseForecast) {
             console.log(responseForecast);
             for (var i = 1; i < 6; i++) {
 
@@ -75,38 +98,24 @@ $(document).ready(function () {
                 $("#forecast").append(newCard);
                 var bodyDiv = $("<div>").addClass("card-body");
                 newCard.append(bodyDiv);
-                
+
                 var humidityLoop = $("<p>").addClass("card-text").text("Humidity: " + responseForecast.daily[i].humidity + "%");
 
                 var tempC = (responseForecast.daily[i].temp.day);
                 var tempF = (tempC - 273.15) * 1.80 + 32;
-                var tempLoop = $("<p>").addClass("card-text").text("Temperature: " + tempF + "°F");
+                var tempLoop = $("<p>").addClass("card-text").text("Temperature: " + tempF.toFixed(0) + "°F");
 
                 var iconLoopCode = (responseForecast.daily[i].weather[0].icon);
                 var iconLoopurl = "http://openweathermap.org/img/w/" + iconLoopCode + ".png";
                 var iconLoop = $("<img>").attr("src", iconLoopurl);
 
-                bodyDiv.append(tempLoop,iconLoop, humidityLoop);
-                
+                var epoch = moment.unix(responseForecast.daily[i].dt);
+                var date = $("<h3>").text(epoch.format("(M/DD/YY)"));
+                bodyDiv.append(date, iconLoop, tempLoop, humidityLoop);
+
             }
         })
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     //dont delete this closing tag it wraps around everything
 })
