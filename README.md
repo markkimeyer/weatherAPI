@@ -6,3 +6,6 @@ Enter a city into the search bar and click the search icon button. You will be p
 
 # Link to live site: 
 https://markkimeyer.github.io/weatherAPI/
+
+![weather dashboard](dashboard.png)
+
